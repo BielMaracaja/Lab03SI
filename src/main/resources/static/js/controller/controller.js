@@ -199,4 +199,20 @@ angular.module("listaDeTarefas").controller("listaDeTarefasCtrl", function ($sco
             })
     }
 
+    var download = document.getElementById('baixarLista');
+
+    download.onclick = function () {
+        var docDefinition = { content: criaStringPdf() };
+        pdfMake.createPdf(docDefinition).download($scope.listaMomento.nome + '.pdf');
+    }
+
+    function criaStringPdf() {
+        var saida = "Lista de Tarefas: " + $scope.listaMomento.nome + "\n"
+            + "Tarefas:\n";
+        for (var i = 0; i < $scope.listaMomento.tarefas.length; i++) {
+            var tarefa = $scope.listaMomento.tarefas[i];
+            saida += "    Nome: " + tarefa.nome + "  /  Descrição: " + tarefa.descricao + "  /  Prioridade: " + tarefa.prioridade + "\n"
+        }
+        return saida;
+    }
 });
